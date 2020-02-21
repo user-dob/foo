@@ -1,0 +1,46 @@
+{
+    "compilerOptions": {
+        "module": "esnext",
+        "resolveJsonModule": true,
+        "esModuleInterop": true,
+        "target": "esnext",
+        "allowSyntheticDefaultImports": true,
+        "noImplicitAny": false,
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "moduleResolution": "node",
+        "sourceMap": true,
+        "strict": true,
+        "outDir": "dist",
+        "baseUrl": ".",
+        "jsx": "react",
+        "paths": {
+            "src/*": [
+                "./src/*"
+            ]
+        },
+        "skipLibCheck": true,
+        "typeRoots": [
+            "node_modules/@types",
+            "./src/declaration"
+        ],
+        "plugins": [
+            {
+                "name": "typescript-plugin-css-modules",
+                "options": {
+                    "classnameTransform": "camelCaseOnly",
+                    "customMatcher": "\\.css$"
+                }
+            }
+        ],
+        "lib": [
+            "es6",
+            "es7",
+            "dom",
+            "es2017"
+        ]
+    },
+    "include": [
+        "src/**/*"
+    ]
+}

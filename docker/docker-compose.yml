@@ -1,0 +1,61 @@
+version: '3.7'
+
+services:
+
+  server:
+    container_name: server
+    build:
+      context: ../server
+      target: development
+    volumes:
+      - ../server:/usr/src
+      - /usr/src/node_modules
+    ports:
+      - ${SERVER_PORT}:${SERVER_PORT}
+      - 9229:9229
+    command: npm run start:dev
+    env_file:
+      - ../env/.env
+    networks:
+      - webnet
+    depends_on:
+      - db
+
+  client:
+    container_name: client
+    build:
+      context: ../client
+      target: development
+    volumes:
+      - ../client:/usr/src
+      - /usr/src/node_modules
+    ports:
+      - ${CLIENT_PORT}:${CLIENT_PORT}
+      - 35729:35729
+    command: npm run dev
+    env_file:
+      - ../env/.env
+    networks:
+      - webnet
+    depends_on:
+      - server
+
+  db:
+    container_name: db
+    image: postgres:12
+    networks:
+      - webnet
+    environment:
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_DB: ${DB_DATABASE_NAME}
+      PG_DATA: /var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      
+networks:
+  webnet:
+volumes:
+  pgdata:
